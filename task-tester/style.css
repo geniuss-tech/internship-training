@@ -1,0 +1,7 @@
+.task-container {
+    padding: 2rem;
+}
+
+.task-container * {
+    margin-right: 1rem;
+}
