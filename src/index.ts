@@ -7,13 +7,24 @@ const port = process.env.PORT || 3000;
 const sendJsonSuccess = (req: Request, res: Response) => {
   res.status(200).setHeader('Content-Type', 'application/json').json({ success: true });
 };
+const onlyPassAuthenticated = (req: Request, res: Response, next: Function) => {
+  if (req.headers.authorization) {
+
+      next();
+  } else {
+     
+      res.status(401).json({ message: "meeeeeeen?" });
+  }
+};
 
 app.use(cors());
 app.get('/task1', (req: Request, res: Response) => {
-    res.status(200).setHeader('Content-Type', 'text/plain').send('hello world');
+    res.status(200).setHeader('Content-Type', 'application/json').send('hello world');
   });
   app.all('/task2',sendJsonSuccess)
 
   app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
   });
+
+app.get('/task3', onlyPassAuthenticated, sendJsonSuccess);
