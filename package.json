@@ -1,0 +1,26 @@
+{
+  "name": "tasks",
+  "version": "1.0.0",
+  "description": "- Each of you will create their own branch in order to start working on the tasks. - Good luck with the tasks and get back to us whenever you need any help or assistance. - You can use the task-tester to test if your code does the required task.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/geniuss-tech/internship-training.git"
+  },
+  "author": "Baraa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/geniuss-tech/internship-training/issues"
+  },
+  "homepage": "https://github.com/geniuss-tech/internship-training#readme",
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.7.9",
+    "express": "^4.21.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  }
+}
