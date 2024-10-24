@@ -4,7 +4,10 @@
   "description": "- Each of you will create their own branch in order to start working on the tasks. - Good luck with the tasks and get back to us whenever you need any help or assistance. - You can use the task-tester to test if your code does the required task.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ts-node src/index.ts",
+    "build": "tsc",
+    "serve": "node dist/index.js"
   },
   "repository": {
     "type": "git",
