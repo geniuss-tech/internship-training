@@ -18,3 +18,17 @@
 - `npm install -D @types/cors`
 - Import cors `import cors from "cors`
 - And finally use it `app.use(cors());`
+
+# Task 2
+- Make a quick search about nodemon
+- Add a new script in package.json named dev that starts nodemon on src/index.ts file
+- Use `npm run dev` from now on to work on you project.
+- Create 5 endpoints: GET, POST, PATCH, PUT, DELETE on the same path /task2
+- They should use the same callback function, name of the function should be sendJsonSuccess that does the following.
+- Return a 200 status code with {success: true} with content-type as json.
+
+# Task 3
+- A get endpoint /task3 that uses the same sendJsonSuccess as callback, you should create a middleware named onlyPassAuthenticated and use it for this endpoint.
+- The middleware should check for the authorization header in the request, call the next function if it has any value
+- If authorization doesn't exist in the headers, the middleware should reply with status 401 and body {message: "meeeeeeen?"}
+- From now on, all tasks should reply with JSON content type, keep in mind first task still needs to be returning plain text to pass the tests.
