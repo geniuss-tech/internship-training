@@ -1,20 +1,28 @@
 import express , {NextFunction, Request , Response} from "express";
 import cors from "cors"; 
+import { send } from "process";
 
 const app = express()
 
 const port = process.env.PORT || 3000 ;
 
 app.use(cors())
-app.use(function (req:Request , res:Response , next:NextFunction){
-    res.setHeader("Content-type" , "text/plain")
-    next()
-})
+
+
+
+function sendJsonSuccess (req: Request , res:Response){
+    res.status(200).json({success : true})
+}
 
 app.get('/task1' , (req:Request , res:Response) =>{
-    res.status(200).send("hello world")
+    res.type("text/plain").status(200).send("hello world")
 })
 
+app.get('/task2', sendJsonSuccess)
+app.post('/task2', sendJsonSuccess)
+app.patch('/task2' , sendJsonSuccess)
+app.put('/task2' ,sendJsonSuccess )
+app.delete('/task2' ,sendJsonSuccess )
 
 app.listen(port , ()=>{
     console.log("listening on port 3000....")

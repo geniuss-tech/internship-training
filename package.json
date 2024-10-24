@@ -6,9 +6,9 @@
   "scripts": {
     "start": "ts-node src/index.ts",
     "build": "tsc",
-    "serve": "node dist/index.js"
+    "serve": "node dist/index.js",
+    "dev" : "nodemon src/index.ts"
   },
-  
   "author": "",
   "license": "ISC",
   "devDependencies": {
@@ -20,6 +20,7 @@
     "typescript": "^5.6.3"
   },
   "dependencies": {
-    "cors": "^2.8.5"
+    "cors": "^2.8.5",
+    "nodemon": "^3.1.7"
   }
 }
