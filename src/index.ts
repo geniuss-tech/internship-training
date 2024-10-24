@@ -1,9 +1,13 @@
 import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
+import dotenv from "dotenv";
+
+//Config
+dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 3000;
 
+//Middleware Usage
 app.use(cors());
 
 //Middleware
@@ -19,7 +23,20 @@ const onlyPassAuthenticated = (
   }
 };
 
-const sendJsonSuccess = async (req: Request, res: Response, data: any) => {
+const onlyPassAuthorized = (admin_name: string) => {
+  return (req: Request, res: Response, next: NextFunction) => {
+    const userName = req.headers.authorization;
+    if (userName === admin_name) {
+      next();
+    } else {
+      res.status(403).json({
+        message: `malek4 access hna ya ${userName} roo7 el3ab b3eed`,
+      });
+    }
+  };
+};
+
+const sendJsonSuccess = async (req: Request, res: Response) => {
   res.status(200).json({ success: true });
 };
 
@@ -38,6 +55,31 @@ app.delete("/task2", sendJsonSuccess);
 
 // Task 3
 app.get("/task3", onlyPassAuthenticated, sendJsonSuccess);
+
+// Task 4
+app.get(
+  "/task4",
+  onlyPassAuthenticated,
+  onlyPassAuthorized("ya 3m efta7 ana 3omda"),
+  sendJsonSuccess
+);
+
+// Task 5
+const admin_name: string = process.env.admin_name || "ya 3m efta7 ana 3omda";
+
+app.get("/task5/get-admin-name", (req: Request, res: Response) => {
+  res.status(200).json({ admin_name: admin_name });
+});
+
+app.get(
+  "/task5/admin-only",
+  onlyPassAuthenticated,
+  onlyPassAuthorized(admin_name),
+  sendJsonSuccess
+);
+
+//start server
+const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
