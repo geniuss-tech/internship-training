@@ -1,0 +1,25 @@
+{
+  "name": "internship-training",
+  "version": "1.0.0",
+  "description": "- Each of you will create their own branch in order to start working on the tasks.\r - Good luck with the tasks and get back to us whenever you need any help or assistance.\r - You can use the task-tester to test if your code does the required task.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.7.9",
+    "express": "^4.21.1",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.3"
+  },
+  "dependencies": {
+    "cors": "^2.8.5"
+  }
+}
