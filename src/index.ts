@@ -2,8 +2,19 @@ import express from "express";
 import cors from "cors";
 const app = express();
 app.use(cors());
-const port = 3000;
-
+// middleware
+const onlyPassAuthenticated = (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction
+) => {
+  if (!req.headers.authorization) {
+    res.status(401).json({ message: "meeeeeeen?" });
+  }
+  console.log("used!");
+  next();
+};
+app.use(onlyPassAuthenticated);
 const sendJsonSuccess = (req: express.Request, res: express.Response) => {
   res
     .setHeader("Content-Type", "application/json")
@@ -11,12 +22,10 @@ const sendJsonSuccess = (req: express.Request, res: express.Response) => {
     .json({ success: true });
 };
 
-app.get("/task2", sendJsonSuccess);
-app.post("/task2", sendJsonSuccess);
-app.patch("/task2", sendJsonSuccess);
-app.put("/task2", sendJsonSuccess);
-app.delete("/task2", sendJsonSuccess);
+app.get("/task3", sendJsonSuccess);
 
+
+const port = 3000;
 app.listen(port, () => {
   console.log(`Server is Fire at http://localhost:${port}`);
 });
