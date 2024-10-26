@@ -1,14 +1,21 @@
-import express from "express"
-import cors from "cors"
+import express from "express";
+import cors from "cors";
 const app = express();
 app.use(cors());
 const port = 3000;
 
-app.get('/task1', (req,res) => {
-    res.setHeader('content-type', 'text/plain').status(200).send('hello world');
-    console.log(res.getHeader('content-type'));
-    
-});
+const sendJsonSuccess = (req: express.Request, res: express.Response) => {
+  res
+    .setHeader("Content-Type", "application/json")
+    .status(200)
+    .json({ success: true });
+};
+
+app.get("/task2", sendJsonSuccess);
+app.post("/task2", sendJsonSuccess);
+app.patch("/task2", sendJsonSuccess);
+app.put("/task2", sendJsonSuccess);
+app.delete("/task2", sendJsonSuccess);
 
 app.listen(port, () => {
   console.log(`Server is Fire at http://localhost:${port}`);
