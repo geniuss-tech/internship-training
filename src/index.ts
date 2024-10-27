@@ -14,7 +14,25 @@ const onlyPassAuthenticated = (
   console.log("used!");
   next();
 };
-app.use(onlyPassAuthenticated);
+// onlyPassAuthorized middleware for only get task4
+const onlyPassAuthorized = (adminName: string) => {
+  return (
+    req: express.Request,
+    res: express.Response,
+    next: express.NextFunction
+  ) => {
+    if (req.headers.authorization !== adminName) {
+      console.log("Not Authorized");
+      res.status(403).json({
+        message: `malek4 access hna ya ${adminName} roo7 el3ab b3eed`,
+      });
+    }
+    else{
+      console.log("Authorized");
+      next();
+    }
+  };
+};
 const sendJsonSuccess = (req: express.Request, res: express.Response) => {
   res
     .setHeader("Content-Type", "application/json")
@@ -22,8 +40,12 @@ const sendJsonSuccess = (req: express.Request, res: express.Response) => {
     .json({ success: true });
 };
 
-app.get("/task3", sendJsonSuccess);
-
+app.get(
+  "/task4",
+  onlyPassAuthenticated,
+  onlyPassAuthorized("ya 3m efta7 ana 3omda"),
+  sendJsonSuccess
+);
 
 const port = 3000;
 app.listen(port, () => {
