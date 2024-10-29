@@ -96,6 +96,16 @@ app.post("/task6/students", (req: Request, res: Response) => {
   res.status(200).json({ message: "done" });
 });
 
+// Task 7
+app.get("/task7/:name", (req: Request, res: Response) => {
+  const { name } = req.params;
+  if (studentNames.includes(name)) {
+    res.status(200).json({ found: true });
+  } else {
+    res.status(404).json({ found: false });
+  }
+});
+
 //start server
 const port = process.env.PORT || 3000;
 
