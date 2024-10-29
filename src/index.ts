@@ -106,6 +106,21 @@ app.get("/task7/:name", (req: Request, res: Response) => {
   }
 });
 
+// Task 8
+app.delete("/task8/:name", (req: Request, res: Response) => {
+  const { name } = req.params;
+  if (studentNames.includes(name)) {
+    studentNames.splice(studentNames.indexOf(name), 1);
+    res.status(204).end();
+    return;
+  } else {
+    res
+      .status(404)
+      .json({ message: `A student with name ${name} is not found!` });
+    return;
+  }
+});
+
 //start server
 const port = process.env.PORT || 3000;
 

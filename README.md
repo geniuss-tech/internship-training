@@ -75,6 +75,21 @@
 - Otherwise, status 404 and {found: false}
 - Resource: https://ihechikara.com/posts/how-to-use-route-parameter-in-expressjs/
 
-8- In this task you will create a DELETE endpoint to delete items from the studentNames array - The endpoint action is DELETE and its path is /task8/:name - This endpoint should check if the name is inside the array and delete it - In case of found, send status 204 with no body. - Otherwise, send status 404 and body {message: "A student with name (X) is not found!"} - Replace (X) in the body example with the name parameter
-9- Create an UPDATE endpoint with the /task9/:name - The endpoint should only accept a body of {name: string}, otherwise respond with 400 {message: "incorrect payload"} - This endpoint should look for the name from the url param in the array, if it's not found respond with 404 {message: "no student with this name"} - In case it's found, replace it with the name from the body
-10- Initialize database - Install @sequelize/postgres package in your project - Install PostgreSQL on your machine - Create a database with any name - Create a table named students with the following columns - ID: auto increment int, name: string, birthdate: Date, createdAt: Date - Insert some students into the database
+# Task 8
+
+- In this task you will create a DELETE endpoint to delete items from the studentNames array - The endpoint action is DELETE and its path is /task8/:name
+- This endpoint should check if the name is inside the array and delete it
+- In case of found, send status 204 with no body.
+- Otherwise, send status 404 and body {message: "A student with name (X) is not found!"}
+- Replace (X) in the body example with the name parameter
+  9
+- Create an UPDATE endpoint with the /task9/:name
+- The endpoint should only accept a body of {name: string}, otherwise respond with 400 {message: "incorrect payload"} - This endpoint should look for the name from the url param in the array, if it's not found respond with 404 {message: "no student with this name"}
+- In case it's found, replace it with the name from the body
+  10
+- Initialize database
+- Install @sequelize/postgres package in your project
+- Install PostgreSQL on your machine - Create a database with any name
+- Create a table named students with the following columns
+- ID: auto increment int, name: string, birthdate: Date, createdAt: Date
+- Insert some students into the database
