@@ -121,6 +121,24 @@ app.delete("/task8/:name", (req: Request, res: Response) => {
   }
 });
 
+// Task 9
+app.put("/task9/:name", (req: Request, res: Response) => {
+  const { name } = req.params;
+  if (studentNames.includes(name)) {
+    if (req.body.name && typeof req.body.name === "string") {
+      studentNames[studentNames.indexOf(name)] = req.body.name;
+      res.status(200).end();
+      return;
+    } else {
+      res.status(400).json({ message: "incorrect payload" });
+      return;
+    }
+  } else {
+    res.status(404).json({ message: "no student with this name" });
+    return;
+  }
+});
+
 //start server
 const port = process.env.PORT || 3000;
 
