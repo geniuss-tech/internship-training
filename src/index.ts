@@ -9,6 +9,7 @@ const app = express();
 
 //Middleware Usage
 app.use(cors());
+app.use(express.json());
 
 //Middleware
 const onlyPassAuthenticated = (
@@ -77,6 +78,23 @@ app.get(
   onlyPassAuthorized(admin_name),
   sendJsonSuccess
 );
+
+// Task 6
+const studentNames: string[] = [];
+
+app.get("/task6/students", (req: Request, res: Response) => {
+  res.status(200).json({ studentNames });
+});
+
+app.post("/task6/students", (req: Request, res: Response) => {
+  const { name } = req.body;
+  if (typeof name !== "string" || !name) {
+    res.status(400).json({ message: "eb3at al request 3edel m4 na2sa bugs" });
+    return;
+  }
+  studentNames.push(name);
+  res.status(200).json({ message: "done" });
+});
 
 //start server
 const port = process.env.PORT || 3000;
