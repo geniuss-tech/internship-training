@@ -38,20 +38,21 @@
 - From now on, all tasks should reply with JSON content type, keep in mind first task still needs to be returning plain text to pass the tests.
 
 # Task 4
-
-- A get endpoint /task4 that uses the sendJsonSuccess callback, you should create and use a parameter middleware along with the onlyPassAuthenticated middleware.
+- A get endpoint /task4 that uses the sendJsonSuccess callback that will use the following middlewares
+- You should create and use a parameterized middleware along with the onlyPassAuthenticated middleware (Resource attached).
 - You should use both middlewares, onlyPassAuthenticated as the first one. (order matters)
 - The middleware function name should be onlyPassAuthorized and it takes one paramter called admin_name, of type string.
 - The middleware should check if the authorization header has the same value as name parameter of the middleware.
 - In case the authorization header matches, it will call next to pass the middleware
 - Otherwise it should reply with status 403 and body {message: "malek4 access hna ya (the name sent) roo7 el3ab b3eed"}
-- (the name sent) should replaced with the authorization value used in the request - for example if I sent "3omda" and 3omda is not the admin name, the message should be: "malek4 access hna ya 3omda roo7 el3ab b3eed"
+- (the name sent) should replaced with the authorization value used in the request
+- for example if I sent "3omda" and 3omda is not the admin name, the message should be: "malek4 access hna ya 3omda roo7 el3ab b3eed"
 - In this task, pass "ya 3m efta7 ana 3omda" (please copy it carefully) as the value for the middleware parameter.
 - Resource: https://tsmx.net/express-middleware-function-with-custom-parameters/
 
 # Task 5
-
-- In this task we will make 2 endpoints, and we want to use dotenv to load admin_name from a file. - Create a .env file in the project root that has the following content "admin_name={any value here}"
+- In this task we will make 2 endpoints, and we want to use dotenv to load admin_name from a file.
+- Create a .env file in the project root that has the following content "admin_name={any value here}"
 - A get endpoint on /task5/get-admin-name that returns the admin_name (loaded from the .env file) (Unprotected route)
 - Response body: {admin_name: value} (JSON content type), status 200.
 - A get endpoint on /task5/admin-only that uses the sendJsonSuccess callback
