@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express, { Request, Response , NextFunction} from 'express';
 import cors from 'cors';
 const app = express();
 const PORT = 3000;
@@ -10,24 +10,36 @@ app.get('/task1', (req: Request, res: Response) => {
   res.status(200).send('hello world');         // Ensure exact response
 });
 
-// Callback function to send success response
+// Callback used in task 2 and 3
 function sendJsonSuccess(req: Request, res: Response) {
-    res.status(200).json({ success: true });
+    res.status(200).json({ success: true });   
 }
 
-// GET endpoint
+//middleware used in task 3
+function onlyPassAuthenticated(req :Request, res: Response, next: NextFunction) {
+    const authHeader = req.headers['authorization'];
+    if (authHeader) {
+        next(); // Authorization exists, proceed to the next middleware/route handler
+    } else {
+        res.status(401).json({ message: "meeeeeeen?" }); // No authorization header, respond with 401
+    }
+}
+
+ //task 3
+ app.get('/task3', onlyPassAuthenticated, sendJsonSuccess); 
+// GET /task2 endpoint
 app.get('/task2', sendJsonSuccess);
 
-// POST endpoint
+// POST /task2 endpoint
 app.post('/task2', sendJsonSuccess);
 
-// PATCH endpoint
+// PATCH /task2  endpoint
 app.patch('/task2', sendJsonSuccess);
 
-// PUT endpoint
+// PUT /task2 endpoint
 app.put('/task2', sendJsonSuccess);
 
-// DELETE endpoint
+// DELETE /task2 endpoint
 app.delete('/task2', sendJsonSuccess);
 
 // Start the server
