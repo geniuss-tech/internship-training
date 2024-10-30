@@ -1,6 +1,8 @@
 import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import sequelize from "./config/database";
+import Student from "./models/Student";
 
 //Config
 dotenv.config();
@@ -137,6 +139,29 @@ app.put("/task9/:name", (req: Request, res: Response) => {
     res.status(404).json({ message: "no student with this name" });
     return;
   }
+});
+
+// Task 10
+// connect to db
+sequelize
+  .authenticate()
+  .then(async () => {
+    await Student.sync({});
+    console.log("Connection has been established successfully.");
+  })
+  .catch((err) => {
+    console.log("Unable to connect to the database:", err);
+  });
+
+app.post("/task10/students", async (req: Request, res: Response) => {
+  const { name, birthdate } = req.body;
+  await Student.create({ name, birthdate });
+  res.status(200).end();
+});
+
+app.get("/task10/students", async (req: Request, res: Response) => {
+  const students = await Student.findAll();
+  res.status(200).json({ students });
 });
 
 //start server
