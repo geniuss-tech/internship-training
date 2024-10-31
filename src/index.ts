@@ -5,6 +5,7 @@ const app = express();
 const port = 3000;
 
 app.use(cors());
+app.use(express.json());
 
 // task one Begin
 app.listen(port, () => {
@@ -30,3 +31,15 @@ app.delete("/task2", sendJsonSuccess);
 app.put("/task2", sendJsonSuccess);
 
 // task Two End
+
+// task 3 begin
+const onlyPassAuthenticated = (req: Request, res: Response, next: any) => {
+  if (req.headers.authorization) {
+    console.log(req.headers.authorization);
+    next();
+  } else {
+    res.status(401).json({ message: "meeeeeeen?"});
+  }
+};
+app.get("/task3", onlyPassAuthenticated, sendJsonSuccess);
+// task 3 end
