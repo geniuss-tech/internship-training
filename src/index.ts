@@ -10,7 +10,6 @@ app.use(cors())
 
 app.use(express.json())
 
-
 function onlyPassAuthenticated (req: Request , res:Response, next:NextFunction){
     const auth = req.headers["authorization"]
     if (!auth){
@@ -20,6 +19,18 @@ function onlyPassAuthenticated (req: Request , res:Response, next:NextFunction){
     next()
 }
 
+
+const onlyPassAuthorized = (admin_name : String) =>{
+    (req: Request , res:Response, next:NextFunction)=>{
+        const auth_head = req.headers["authorization"]
+        if (auth_head === admin_name){
+            next()
+        }else{
+            res.status(403).json({message: `malek4 access hna ya ${admin_name} roo7 el3ab b3eed`})
+            return
+        }
+    }
+}
 
 const sendJsonSuccess = (req: Request , res:Response) =>{
     res.status(200).json({success : true})
@@ -36,6 +47,11 @@ app.delete('/task2' ,sendJsonSuccess )
 
 
 app.get('/task3' ,onlyPassAuthenticated ,sendJsonSuccess)
+
+
+app.get('/task4' ,[onlyPassAuthenticated,onlyPassAuthorized] ,sendJsonSuccess)
+
+
 
 
 app.listen(port , ()=>{
