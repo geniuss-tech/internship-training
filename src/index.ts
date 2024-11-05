@@ -101,6 +101,20 @@ app.get('/task7/:name',(req : Request , res : Response)=>{
 })
 
 
+app.delete('/task8/:name',(req:Request , res:Response)=>{
+    const {name} = req.params
+
+    let foundindex = studentNames.findIndex((student) => student == name)
+    if(foundindex != -1){
+        studentNames.splice(foundindex,1)
+        res.status(204).json()
+    }else{
+        res.status(404).json({message: `A student with name ${name} is not found!`})
+    }
+
+})
+
+
 app.listen(port , ()=>{
     console.log("listening on port 3000....")
 })
