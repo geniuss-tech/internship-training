@@ -1,6 +1,10 @@
 import express , {NextFunction, Request , Response} from "express";
 import cors from "cors"; 
 import { send } from "process";
+import dotenv from "dotenv";
+
+dotenv.config()
+
 
 const app = express()
 
@@ -20,8 +24,8 @@ function onlyPassAuthenticated (req: Request , res:Response, next:NextFunction){
 }
 
 
-const onlyPassAuthorized = (admin_name : String) =>{
-    (req: Request , res:Response, next:NextFunction)=>{
+const onlyPassAuthorized = (admin_name : string) =>{
+    return (req: Request , res:Response, next:NextFunction)=>{
         const auth_head = req.headers["authorization"]
         if (auth_head === admin_name){
             next()
@@ -49,10 +53,14 @@ app.delete('/task2' ,sendJsonSuccess )
 app.get('/task3' ,onlyPassAuthenticated ,sendJsonSuccess)
 
 
-app.get('/task4' ,[onlyPassAuthenticated,onlyPassAuthorized] ,sendJsonSuccess)
+app.get('/task4' ,[onlyPassAuthenticated,onlyPassAuthorized("ya 3m efta7 ana 3omda")] ,sendJsonSuccess)
 
 
+app.get('/task5/get-admin-name',(req:Request , res:Response)=>{
+    res.status(200).json({admin_name : process.env.admin_name})
+})
 
+app.get('/task5/admin-only',[onlyPassAuthenticated,onlyPassAuthorized(process.env.admin_name as string)] ,sendJsonSuccess)
 
 app.listen(port , ()=>{
     console.log("listening on port 3000....")
