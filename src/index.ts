@@ -8,7 +8,7 @@ dotenv.config()
 
 const app = express()
 
-const port = process.env.PORT || 3000 ;
+const port = process.env.PORT || 5000 ;
 
 app.use(cors())
 
@@ -114,6 +114,21 @@ app.delete('/task8/:name',(req:Request , res:Response)=>{
 
 })
 
+app.put('/task9/:name',(req:Request , res:Response)=>{
+    const newname = req.body.name
+    const {name} = req.params
+    if(!newname){
+        res.status(400).json({message:"incorrect payload"})
+        return
+    }
+    let foundindex = studentNames.findIndex((student) => student == name)
+    if(foundindex === -1){
+        res.status(404).json({message:"no student with this name"})
+        return
+    }
+    studentNames.splice(foundindex,1,newname)
+    res.status(204).json()
+})
 
 app.listen(port , ()=>{
     console.log("listening on port 3000....")
