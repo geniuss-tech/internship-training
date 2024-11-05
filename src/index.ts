@@ -88,6 +88,18 @@ app.post('/task6/students', (req: Request , res:Response)=>{
     }
 })
 
+app.get('/task7/:name',(req : Request , res : Response)=>{
+    const {name} = req.params
+
+    let found = studentNames.find((student)=> student == name)
+    
+    if(found){
+        res.status(200).json({found : true})
+    }else{
+        res.status(404).json({found :false})
+    }
+})
+
 
 app.listen(port , ()=>{
     console.log("listening on port 3000....")
