@@ -106,6 +106,17 @@ app.get("/task7/:name", (req, res) => {
     res.status(404).json({ found: false });
   }
 });
+//task 8
+app.delete("/task7/:name", (req, res) => {
+  const name = req.params.name;
+  if (studentNames.find((i) => i.name === name)) {
+    res.status(204);
+  } else {
+    res
+      .status(404)
+      .json({ message: `A student with name ${name} is not found!` });
+  }
+});
 //server
 const port = process.env.port;
 app.listen(port, () => {
