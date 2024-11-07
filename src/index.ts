@@ -1,7 +1,9 @@
 import express from "express";
 import cors from "cors";
-import 'dotenv/config';
+import "dotenv/config";
 const app = express();
+// to be able to post
+app.use(express.json());
 app.use(cors());
 // task 1
 app.get("/task1", (req, res) => {
@@ -35,7 +37,7 @@ const onlyPassAuthenticated = (
   console.log("used!");
   next();
 };
-app.use(onlyPassAuthenticated);
+// app.use(onlyPassAuthenticated);
 app.get("/task3", sendJsonSuccess);
 
 //task 4
@@ -72,9 +74,32 @@ app.get("/task5/get-admin-name", (req, res) => {
     .setHeader("Content-Type", "application/json")
     .json({ admin_name: adminName });
 });
-app.get("/task5/admin-only",onlyPassAuthenticated ,onlyPassAuthorized(String(adminName)),sendJsonSuccess)
+app.get(
+  "/task5/admin-only",
+  onlyPassAuthenticated,
+  onlyPassAuthorized(String(adminName)),
+  sendJsonSuccess
+);
+
+//task 6
+let studentNames: { name: string }[] = [];
+app.get("/task6/students", (req, res) => {
+  res.status(200).json(studentNames);
+});
+
+app.post("/task6/students", (req, res) => {
+  const student = req.body;
+  console.log(student);
+    const exists = studentNames.find((i) => i.name === student.name);
+    if (!exists) {
+      studentNames.push(student);
+      res.status(200).send("done! ... new student has been added!");
+    }
+    else
+    res.status(400).json({ message: "eb3at al request 3edel m4 na2sa bugs" });
+});
 //server
-const port = 3000;
+const port = process.env.port;
 app.listen(port, () => {
   console.log(`Server is Fire at http://localhost:${port}`);
 });
