@@ -107,7 +107,7 @@ app.get("/task7/:name", (req, res) => {
   }
 });
 //task 8
-app.delete("/task7/:name", (req, res) => {
+app.delete("/task8/:name", (req, res) => {
   const name = req.params.name;
   if (studentNames.find((i) => i.name === name)) {
     res.status(204);
@@ -115,6 +115,24 @@ app.delete("/task7/:name", (req, res) => {
     res
       .status(404)
       .json({ message: `A student with name ${name} is not found!` });
+  }
+});
+//task 9
+app.patch("/task9/:name", (req, res) => {
+  const name = req.params.name;
+  const newName = req.body.name;
+  console.log(name);
+  if (name && typeof name === "string") {
+    const change = studentNames.findIndex((i) => i.name === name);
+    if (change >= 0 && change < studentNames.length) {
+      studentNames[change].name = newName;
+      console.log(studentNames);
+      res.status(200).send(`Name has been changed!`);
+    } else {
+      res.status(404).json({ message: "no student with this name" });
+    }
+  } else {
+    res.status(400).json({ message: "incorrect payload" });
   }
 });
 //server
