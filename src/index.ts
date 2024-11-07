@@ -90,13 +90,21 @@ app.get("/task6/students", (req, res) => {
 app.post("/task6/students", (req, res) => {
   const student = req.body;
   console.log(student);
-    const exists = studentNames.find((i) => i.name === student.name);
-    if (!exists) {
-      studentNames.push(student);
-      res.status(200).send("done! ... new student has been added!");
-    }
-    else
+  const exists = studentNames.find((i) => i.name === student.name);
+  if (!exists) {
+    studentNames.push(student);
+    res.status(200).send("done! ... new student has been added!");
+  } else
     res.status(400).json({ message: "eb3at al request 3edel m4 na2sa bugs" });
+});
+
+//task 7
+app.get("/task7/:name", (req, res) => {
+  if (studentNames.find((i) => i.name === req.params.name)) {
+    res.status(200).json({ found: true });
+  } else {
+    res.status(404).json({ found: false });
+  }
 });
 //server
 const port = process.env.port;
