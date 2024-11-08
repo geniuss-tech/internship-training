@@ -134,6 +134,26 @@ app.get(
     }
   });
 
+  // task 9
+  app.put('/task9/:name', (req: Request,res: Response)=> {
+    const name = req.params.name;
+    const { name: newName } = req.body; // Extract 'name' from the body, rename to 'newName'
+
+    if (!newName || typeof newName !== 'string') {
+      res.status(400).json({message: "incorrect payload"});
+      return;
+    }
+
+    const index = studentNames.indexOf(name);
+    if (index != -1) {
+      studentNames[index] = newName;
+      res.status(200).json({ message: `Updated ${name} to ${newName}`, studentNames });
+
+    } else {
+      res.status(404).json({message: "no student with this name"});
+    }
+  });
+
   app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
   });
