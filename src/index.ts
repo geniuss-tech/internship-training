@@ -12,6 +12,8 @@ const port = process.env.PORT || 3000;
 
 
 app.use(cors());
+app.use(express.json()) // This line enables Express to parse JSON payloads.
+
 
 app.get('/', (req: Request, res: Response) => {
     res.send('hello world');
@@ -78,6 +80,28 @@ app.get(
     onlyPassAuthorized(process.env.admin_name || " "),
     sendJsonSuccess
     );
+
+
+
+  // task 6
+  // Create a GET endpoint /task6/students that returns the studentNames array
+  
+
+  const studentNames: string[] = [];
+  
+  app.get('/task6/students', (req: Request, res: Response) => {
+    res.status(200).json(studentNames);
+  });
+
+  app.post('/task6/students', (req: Request, res: Response) => {
+    const { name } = req.body || {}; // Use empty object if req.body is undefined
+    if (name && typeof name === 'string') {
+      studentNames.push(name);
+      res.status(201).json({ message: `${name} added successfully`, studentNames });
+    } else {
+      res.status(400).json({ message: "eb3at al request 3edel m4 na2sa bugs"});
+    }
+  });
 
   app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
