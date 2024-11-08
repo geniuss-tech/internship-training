@@ -103,6 +103,40 @@ app.get(
     }
   });
 
+  // task 7
+
+  app.get('/task7/:name',(req: Request, res: Response) => {
+    
+    let name = req.params.name;
+    const found = studentNames.find(studentName => studentName === name);
+ 
+    if (found) {
+      res.status(200).json({found: true});
+    } else {
+       res.status(404).json({found: false});
+    }
+
+
+    // another implementation to the same job
+    // let FOUND = false;
+
+    // for(const studentName of studentNames) {
+    //   if (studentName === name) {
+    //     FOUND = true;
+    //     break;
+    //   }
+    // }
+    
+    // if (FOUND) {
+    //   res.status(200).json({found: true});
+    // } else {
+    //    res.status(404).json({found: false});
+    // }
+
+  })
+
+  
+
   app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
   });
