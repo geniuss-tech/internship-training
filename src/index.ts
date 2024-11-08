@@ -50,16 +50,12 @@ app.get('/task3/', onlyPassAuthenticated, sendJsonSuccess);
 // task 4
 const onlyPassAuthorized = (admin_name: string) => {
 
-  return (req: Request, res: Response, next: NextFunction) => {
-    
-  const authHeader = req.headers.authorization
-
+  return (req: Request, res: Response, next: NextFunction) => {    
+  const authHeader = req.headers.authorization;
     if (authHeader === admin_name) next();
     else res.status(403).json({message : `malek4 access hna ya ${authHeader} roo7 el3ab b3ee`}); 
-  
   }
 }
-
 app.get(
   '/task4/',
    onlyPassAuthenticated, 
@@ -68,12 +64,11 @@ app.get(
   );
 
   // task 5
-
   app.get('/task5/get-admin-name', (req: Request, res: Response) => {
     const adminName = process.env.admin_name;
     res.status(200).json({ admin_name: adminName });
   });
-  // task 5
+
   app.get(
     '/task5/admin-only',
     onlyPassAuthenticated,
@@ -81,14 +76,8 @@ app.get(
     sendJsonSuccess
     );
 
-
-
   // task 6
-  // Create a GET endpoint /task6/students that returns the studentNames array
-  
-
-  const studentNames: string[] = [];
-  
+  const studentNames: string[] = []; 
   app.get('/task6/students', (req: Request, res: Response) => {
     res.status(200).json(studentNames);
   });
@@ -104,9 +93,7 @@ app.get(
   });
 
   // task 7
-
-  app.get('/task7/:name',(req: Request, res: Response) => {
-    
+  app.get('/task7/:name',(req: Request, res: Response) => {    
     let name = req.params.name;
     const found = studentNames.find(studentName => studentName === name);
  
@@ -115,8 +102,6 @@ app.get(
     } else {
        res.status(404).json({found: false});
     }
-
-
     // another implementation to the same job
     // let FOUND = false;
 
@@ -132,10 +117,22 @@ app.get(
     // } else {
     //    res.status(404).json({found: false});
     // }
-
   })
 
-  
+  // Task 8
+  // The endpoint action is DELETE and its path is /task8/:name
+
+  app.delete('/task8/:name',(req: Request, res: Response) => {
+    let name = req.params.name;
+    const index = studentNames.indexOf(name);
+
+    if (index !== -1) {
+      res.status(204);
+      studentNames.splice(index, 1); 
+    } else {
+      res.status(404).json({message: `A student with name ${name} is not found!`});
+    }
+  });
 
   app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
