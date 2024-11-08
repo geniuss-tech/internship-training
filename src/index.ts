@@ -1,6 +1,10 @@
 import express, { Request, Response } from 'express';
 import cors from "cors";
 import { NextFunction } from 'express-serve-static-core';
+import dotenv from 'dotenv';
+
+// Load environment variables
+dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -61,6 +65,19 @@ app.get(
    sendJsonSuccess
   );
 
+  // task 5
+
+  app.get('/task5/get-admin-name', (req: Request, res: Response) => {
+    const adminName = process.env.admin_name;
+    res.status(200).json({ admin_name: adminName });
+  });
+  // task 5
+  app.get(
+    '/task5/admin-only',
+    onlyPassAuthenticated,
+    onlyPassAuthorized(process.env.admin_name || " "),
+    sendJsonSuccess
+    );
 
   app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
