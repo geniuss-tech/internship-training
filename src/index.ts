@@ -1,7 +1,10 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import express, { Request, Response } from 'express';
 import { text } from 'stream/consumers';
 import cors from "cors";
 
+const adminName = process.env.admin_name || "";
 const app = express();
 const port = process.env.PORT || 3000;
 const sendJsonSuccess = (req: Request, res: Response) => {
@@ -32,6 +35,13 @@ app.get('/task3', onlyPassAuthenticated, sendJsonSuccess);
 
 app.get('/task4',onlyPassAuthenticated,onlyPassAuthorized("ya 3m efta7 ana 3omda"),sendJsonSuccess);
 
+app.get('/task5/get-admin-name',(req:Request,res:Response)=>{
+  res.status(200).json({ admin_name: adminName });})
+
+app.get('/task5/admin-only',onlyPassAuthenticated,onlyPassAuthorized(adminName),sendJsonSuccess);
+
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
   });
+  
+ 
