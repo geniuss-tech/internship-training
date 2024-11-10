@@ -1,46 +1,42 @@
 import express, { Request, Response , NextFunction} from 'express';
 import cors from 'cors';
 const app = express();
-const PORT = 3000;
+const PORT = 3001;
 app.use(cors());
 
-// GET /task1 endpoint
-app.get('/task1', (req: Request, res: Response) => {
-  res.setHeader('Content-Type', 'text/plain'); // Ensure correct content-type
-  res.status(200).send('hello world');         // Ensure exact response
-});
-
-// Callback used in task 2 and 3
+// Callback used tasks
 function sendJsonSuccess(req: Request, res: Response) {
     res.status(200).json({ success: true });   
 }
 
-//middleware used in task 3
-function onlyPassAuthenticated(req :Request, res: Response, next: NextFunction) {
-    const authHeader = req.headers['authorization'];
-    if (authHeader) {
-        next(); // Authorization exists, proceed to the next middleware/route handler
-    } else {
-        res.status(401).json({ message: "meeeeeeen?" }); // No authorization header, respond with 401
-    }
-}
+const onlyPassAuthenticated = (req: Request, res: Response, next: NextFunction) => {
+  if (req.headers.authorization) {
+      next(); // Proceed if authenticated
+  } else {
+      res.status(401).json({ message: "Unauthorized" });
+  }
+};
+//middleware used in task 4
+const onlyPassAuthorized = (admin_name: string) => {
+  return (req: Request, res: Response, next: NextFunction) => {
+      const authHeader = req.headers.authorization;
 
- //task 3
- app.get('/task3', onlyPassAuthenticated, sendJsonSuccess); 
-// GET /task2 endpoint
-app.get('/task2', sendJsonSuccess);
+      if (authHeader === admin_name) {
+          next(); // Proceed if authorized
+      } else {
+          res.status(403).json({
+              message: `malek4 access hna ya ${authHeader || "unknown"} roo7 el3ab b3eed`
+          });
+      }
+  };
+};
 
-// POST /task2 endpoint
-app.post('/task2', sendJsonSuccess);
-
-// PATCH /task2  endpoint
-app.patch('/task2', sendJsonSuccess);
-
-// PUT /task2 endpoint
-app.put('/task2', sendJsonSuccess);
-
-// DELETE /task2 endpoint
-app.delete('/task2', sendJsonSuccess);
+//task4
+app.get('/task4', 
+  onlyPassAuthenticated, 
+  onlyPassAuthorized("ya 3m efta7 ana 3omda"), 
+  sendJsonSuccess
+);
 
 // Start the server
 app.listen(PORT, () => {
