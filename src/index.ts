@@ -1,64 +1,108 @@
-import express, { Request, Response , NextFunction} from 'express';
-import cors from 'cors';
-import dotenv from 'dotenv';
-
-// Load environment variables from .env file
-dotenv.config();
-
+import express, { Request, Response } from 'express';
 const app = express();
-const PORT = 3001;
-app.use(cors());
+app.use(express.json()); // Parses incoming JSON requests
+const PORT = 3014;
 
-// Access admin_name from environment variables
-const ADMIN_NAME = process.env.admin_name;
+// Middleware to parse JSON bodies
+app.use(express.json());
 
-// Callback used tasks
-function sendJsonSuccess(req: Request, res: Response) {
-    res.status(200).json({ success: true });   
-}
+// Define a type for Student
 
-const onlyPassAuthenticated = (req: Request, res: Response, next: NextFunction) => {
-  if (req.headers.authorization) {
-      next(); // Proceed if authenticated
-  } else {
-      res.status(401).json({ message: "Unauthorized" });
-  }
-};
-//middleware used in task 4
-const onlyPassAuthorized = (admin_name: string) => {
-  return (req: Request, res: Response, next: NextFunction) => {
-      const authHeader = req.headers.authorization;
+// Array to store student names as Student objects
+const studentNames: string[] = ['3omda','Khalifa'];
 
-      if (authHeader === admin_name) {
-          next(); // Proceed if authorized
-      } else {
-          res.status(403).json({
-              message: `malek4 access hna ya ${authHeader || "unknown"} roo7 el3ab b3eed`
-          });
-      }
-  };
-};
+// GET endpoint to retrieve all student names
 
-// Unprotected route to get the admin name
-app.get('/task5/get-admin-name', (req: Request, res: Response) => {
-  res.status(200).json({ admin_name: ADMIN_NAME });
- //console.log(ADMIN_NAME);
+app.get('/task6/students',(req:Request,res:Response)=>{
+    res.status(200).json(studentNames);
 });
 
-// Protected route that uses authentication and authorization
-app.get('/task5/admin-only', 
-  onlyPassAuthenticated,
-  onlyPassAuthorized(ADMIN_NAME as string), // Pass admin_name from environment variables
-  sendJsonSuccess
-);
-//task4
-app.get('/task4', 
-  onlyPassAuthenticated, 
-  onlyPassAuthorized("ya 3m efta7 ana 3omda"), 
-  sendJsonSuccess
-);
 
+// POST endpoint to add a student name
+app.post('/task6/students', (req: Request, res: Response) => {
+    let newname = req.body.name;
+    if (!newname || typeof newname !== 'string') {
+        res.status(400).send("eb3at al request 3edel m4 na2sa bugs");
+    }
+    studentNames.push(newname);  
+    res.status(201).json({ message :`Student added succeffully ${newname}`});
+})
+// app.post('/task6/students', (req: Request, res: Response): void => {
+//     const { name } = req.body;
+
+//     if (!name || typeof name !== 'string') {
+//         res.status(400).json({
+//             message: "eb3at al request 3edel m4 na2sa bugs"
+//         });
+//         return;
+//     }
+//     // Add the name wrapped in an object matching the Student type
+//     studentNames.push({ name });
+//     res.status(201).json({ message: "Student name added successfully" });
+// });
+// Task 7: GET endpoint with route parameter to check for student name
+// app.get('/task7/:name', (req: Request, res: Response): void => {
+//     const { name } = req.params;
+
+//     // Check if the name exists in the studentNames array
+//     const found = studentNames.some((student) => student.name === name);
+
+//     if (found) {
+//         res.status(200).json({ found: true });
+//     } else {
+//         res.status(404).json({ found: false });
+//     }});
+
+
+    
+    // // Task 8: DELETE endpoint to delete a student by name
+    // app.delete('/task8/:name', (req: Request, res: Response): void => {
+    //     const { name } = req.params;
+    
+    //     // Find the index of the student in the array
+    //     const index = studentNames.findIndex(student => student.name === name);
+    
+    //     if (index !== -1) {
+    //         // If found, remove the student from the array
+    //         studentNames.splice(index, 1);
+    //         res.status(204).send(); // Status 204 with no content
+    //     } else {
+    //         res.status(404).json({
+    //             message: `A student with name (${name}) is not found!`
+    //         });
+    //     }
+    // });
+    
+    // // Task 9: UPDATE endpoint to update a student's name
+    // app.put('/task9/:name', (req: Request, res: Response): void => {
+    //     const { name } = req.params;
+    //     const { name: newName } = req.body;
+    
+    //     // Validate the request body
+    //     if (!newName || typeof newName !== 'string') {
+    //         res.status(400).json({
+    //             message: "incorrect payload"
+    //         });
+    //         return;
+    //     }
+    
+    //     // Find the student in the array
+    //     const student = studentNames.find(student => student.name === name);
+    
+    //     if (!student) {
+    //         res.status(404).json({
+    //             message: "no student with this name"
+    //         });
+    //     } else {
+    //         // Update the student's name
+    //         student.name = newName;
+    //         res.status(200).json({
+    //             message: "Student name updated successfully"
+    //         });
+    //     }
+    // });
+    
 // Start the server
 app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+    console.log(`Server running at http://localhost:${PORT}`);
 });
