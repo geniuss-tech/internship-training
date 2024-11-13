@@ -30,7 +30,9 @@
     "typescript": "^5.6.3"
   },
   "dependencies": {
+    "@sequelize/postgres": "^7.0.0-alpha.43",
     "cors": "^2.8.5",
-    "dotenv": "^16.4.5"
+    "dotenv": "^16.4.5",
+    "pg": "^8.13.1"
   }
 }
